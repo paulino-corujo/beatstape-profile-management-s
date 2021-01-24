@@ -55,7 +55,7 @@ public class ProfileController {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey("id", principal.getName())
                 .withUpdateExpression("set #ct = if_not_exists(#ct , :val1),  #lut= if_not_exists(#lut, :val2)")
-                .withNameMap(new NameMap().with("#ct", "createdTimestamp").with("#lut", "lastUpdateTimestamp"))
+                .withNameMap(new NameMap().with("#ct", "created").with("#lut", "lastUpdate"))
                 .withValueMap(
                         new ValueMap().withLong(":val1", now).withLong(":val2", now))
                 .withReturnValues(ReturnValue.ALL_NEW);
@@ -66,7 +66,7 @@ public class ProfileController {
             ProfileInfo profile = new ProfileInfo();
             BeanUtils.populate(profile, beatstapeProfile.getItem().asMap());
             System.out.println(profile);
-            if (now.equals(profile.getCreatedTimestamp()) && now.equals(profile.getLastUpdateTimestamp())) {
+            if (now.equals(profile.getCreated()) && now.equals(profile.getLastUpdate())) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(profile);
             }
             return ResponseEntity.status(HttpStatus.OK).body(profile);
@@ -83,7 +83,7 @@ public class ProfileController {
                 .withPrimaryKey("id", principal.getName())
                 .withUpdateExpression("set #bio= :val1, #un = if_not_exists(#un , :val2), #an = :val3, #lut = :val4")
                 .withNameMap(new NameMap().with("#bio", "bio").with("#un", "userName").with("#an", "artistName").
-                        with("#lut", "lastUpdateTimestamp"))
+                        with("#lut", "lastUpdate"))
                 .withValueMap(
                         new ValueMap().withString(":val1", profileInfo.getBio())
                                 .withString(":val2", profileInfo.getUserName())

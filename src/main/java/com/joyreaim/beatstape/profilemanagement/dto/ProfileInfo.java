@@ -11,11 +11,11 @@ public class ProfileInfo {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long createdTimestamp;
+    private Long created;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long lastUpdateTimestamp;
+    private Long lastUpdate;
     public String sns;
     public String bio;
     public String userName;
