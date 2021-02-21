@@ -1,0 +1,13 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+metadata:
+  name: beatstape-profile-management-s
+build:
+  artifacts:
+  - image: beatstape-profile-management-s
+    jib:
+      project: com.joyreaim:beatstape-profile-management-s
+deploy:
+  kubectl:
+    manifests:
+    - k8s/deployment.yaml

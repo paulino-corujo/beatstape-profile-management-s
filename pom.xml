@@ -22,6 +22,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.joyreaim</groupId>
+			<artifactId>beatstape-profile-management-shared</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.joyreaim</groupId>
 			<artifactId>global-spring-imports</artifactId>
 			<version>${joyreaim.version}</version>
 		</dependency>
@@ -49,6 +55,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>2.7.1</version>
+				<configuration>
+					<from>
+						<image>azul/zulu-openjdk-alpine:13.0.3</image>
+					</from>
+					<to>
+						<image>docker.io/my-docker-id/my-app</image>
+					</to>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

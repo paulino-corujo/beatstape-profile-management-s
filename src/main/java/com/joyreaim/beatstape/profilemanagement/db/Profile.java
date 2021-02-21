@@ -32,4 +32,7 @@ public class Profile {
 
     @DynamoDBAttribute(attributeName = "picture")
     private String picture;
+
+    @DynamoDBAttribute(attributeName = "tagPreferences")
+    private List<String> tagPreferences;
 }

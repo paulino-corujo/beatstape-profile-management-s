@@ -7,8 +7,8 @@ import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 import com.joyreaim.beatstape.profilemanagement.db.DBClient;
-import com.joyreaim.beatstape.profilemanagement.dto.ProfileInfo;
 import com.joyreaim.beatstape.profilemanagement.s3.FileService;
+import com.joyreaim.beatstape.profilemanagement.shared.ProfileInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
@@ -81,14 +81,17 @@ public class ProfileController {
     public ResponseEntity<?> updateUserProfile(Principal principal, @RequestBody ProfileInfo profileInfo) {
         UpdateItemSpec updateItemSpec = new UpdateItemSpec()
                 .withPrimaryKey("id", principal.getName())
-                .withUpdateExpression("set #bio= :val1, #un = if_not_exists(#un , :val2), #an = :val3, #lut = :val4")
-                .withNameMap(new NameMap().with("#bio", "bio").with("#un", "userName").with("#an", "artistName").
-                        with("#lut", "lastUpdate"))
+                .withUpdateExpression("set #bio= :val1, #un = if_not_exists(#un , :val2), #an = :val3, #tags= :val4, #lut = :val5")
+                .withNameMap(
+                        new NameMap().with("#bio", "bio").with("#un", "userName")
+                                .with("#an", "artistName").with("#tags", "tagPreferences")
+                                .with("#lut", "lastUpdate"))
                 .withValueMap(
                         new ValueMap().withString(":val1", profileInfo.getBio())
                                 .withString(":val2", profileInfo.getUserName())
                                 .withString(":val3", profileInfo.getArtistName())
-                                .withLong(":val4", Instant.now().toEpochMilli()))
+                                .withList(":val4", profileInfo.getTagPreferences())
+                                .withLong(":val5", Instant.now().toEpochMilli()))
                 .withReturnValues(ReturnValue.ALL_NEW);
 
         try {
